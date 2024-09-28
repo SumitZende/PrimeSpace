@@ -31,10 +31,11 @@ export default function SignUp() {
           if(data.success === false){
             setLoading(false)
             setError(data.message);
+          }else{
+            setLoading(false)
+            setError(null)   
+            navigate('/signin')
           }
-          setLoading(false)
-          setError(null)   
-          navigate('/signin')
       }
       catch(error){
           setLoading(false)
@@ -87,7 +88,7 @@ export default function SignUp() {
           <span className="text-blue-700">Sign in</span>
         </Link>
       </div>
-        {error && <p className={`mt-5 ${error ?'text-red-500':'text-green-500'}`}>{error ?'Somethin went wrong !!!':''}</p>}
+        {error && <p className={`mt-5 ${error ?'text-red-500':'text-green-500'}`}>{error}</p>}
     </div>
   );
 }
