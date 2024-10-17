@@ -19,7 +19,8 @@ const userSchema = new mongoose.Schema({
     },
     avatar:{
         type:String,
-        default: process.env.DEFAULT_IMAGE
+        default: process.env.DEFAULT_IMAGE,
+       
     }
 },{timestamps:true});
 
