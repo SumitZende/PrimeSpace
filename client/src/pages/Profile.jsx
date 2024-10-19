@@ -8,12 +8,9 @@ import {
 } from "firebase/storage";
 import { Gapp } from "../Firbase";
 import {
-  updateUserInit,
-  updateUserSuccess,
-  updateUserFailure,
-  deleteUserInit,
-  deleteUserSuccess,
-  deleteUserFailure,
+  updateUserInit,updateUserSuccess,updateUserFailure,
+  deleteUserInit,deleteUserSuccess,deleteUserFailure,
+  signOutUserFailure,signOutUserInit,signOutUserSuccess
 } from "../redux/user/userSlice.js";
 import { useNavigate } from "react-router-dom";
 
@@ -107,6 +104,23 @@ const handleDelete = async()=>{
   }
 }
 
+const handleSignOut=async()=>{
+  try {
+    dispatch(signOutUserInit())
+    const res = await fetch('/api/auth/signout')
+    const data = await res.json();
+    if(data.success===false ){
+      dispatch(signOutUserFailure(data.message))
+      return
+    }
+    else{
+      dispatch(signOutUserSuccess(data))
+    }
+  } catch (error) {
+    dispatch(signOutUserFailure(error.message))
+  }
+}
+
   return (
     <div className="p-3 max-w-lg mx-auto">
       <h1 className="font-serif text-center font-semibold text-3xl my-8 ">
@@ -178,7 +192,9 @@ const handleDelete = async()=>{
         >
           delete account
         </span>
-        <span className="text-red-700 cursor-pointer capitalize hover:underline">
+        <span 
+          onClick={handleSignOut}
+        className="text-red-700 cursor-pointer capitalize hover:underline">
           sign out
         </span>
       </div>
