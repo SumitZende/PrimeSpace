@@ -37,7 +37,11 @@ const userSlice = createSlice({
         deleteUserInit:(state)=>{
             state.loading=true;
         },
+<<<<<<< HEAD
         deleteUserSuccess:(state)=>{
+=======
+        deleteUserSuccess:(state,action)=>{
+>>>>>>> 121f297fceececeecfb145e1a8bc5610e9a38691
             state.currentUser=null;
             state.loading=false;
             state.error=null;
