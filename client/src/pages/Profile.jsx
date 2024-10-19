@@ -11,7 +11,11 @@ import {
   updateUserInit,
   updateUserSuccess,
   updateUserFailure,
+  deleteUserInit,
+  deleteUserSuccess,
+  deleteUserFailure,
 } from "../redux/user/userSlice.js";
+import { useNavigate } from "react-router-dom";
 
 export default function Profile() {
   const fileRef = useRef(null);
@@ -20,7 +24,9 @@ export default function Profile() {
   const [filePerc, setFilePerc] = useState(0);
   const [fileUploadErr, setFileUploadErr] = useState(false);
   const [formData, setFormData] = useState({});
+  const [success,setSuccess]=useState(null)
   const dispatch = useDispatch();
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (file) {
@@ -72,11 +78,34 @@ export default function Profile() {
         dispatch(updateUserFailure(data.message));
       } else {
         dispatch(updateUserSuccess(data));
+        setSuccess(true)
       }
     } catch (error) {
       dispatch(updateUserFailure(error.message));
     }
   };
+
+const handleDelete = async()=>{
+  try {
+    dispatch(deleteUserInit());
+      const res = await fetch(`api/user/delete/${currentUser._id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      if (data.success === false) {
+        dispatch(deleteUserFailure(data.message));
+      } else {
+        dispatch(deleteUserSuccess(data));
+        navigate('/signin')
+      }
+  } catch (error) {
+    dispatch(deleteUserFailure(error.message))
+  }
+}
 
   return (
     <div className="p-3 max-w-lg mx-auto">
@@ -143,7 +172,10 @@ export default function Profile() {
         </button>
       </form>
       <div className="flex justify-between mt-5">
-        <span className="text-red-700 cursor-pointer capitalize hover:underline">
+        <span
+          onClick={handleDelete}
+          className="text-red-700 cursor-pointer capitalize hover:underline"
+        >
           delete account
         </span>
         <span className="text-red-700 cursor-pointer capitalize hover:underline">
@@ -151,7 +183,12 @@ export default function Profile() {
         </span>
       </div>
       <div className="mt-2">
-      <p className={error? `text-red-600 `:'text-green-600'}>{error ? error : "Updated Succesfully!"}</p>
+        <p className='text-red-600' >
+          {error ? error : ""}
+        </p>
+        <p className='text-green-600' >
+          {success ? "Updated Succesfully!" : ""}
+        </p>
       </div>
     </div>
   );
