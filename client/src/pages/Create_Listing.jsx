@@ -5,7 +5,6 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { Gapp } from "../Firbase.js";
-
 import { useState } from "react";
 
 export default function CreateListing() {
