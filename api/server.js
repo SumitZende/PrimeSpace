@@ -9,7 +9,12 @@ import path from 'path';
 dotenv.config()
 
 mongoose
-.connect(process.env.MOONGODB_URL)
+.connect(process.env.MOONGODB_URL,{
+    useNewUrlParser: true,
+      useUnifiedTopology: true,
+      serverSelectionTimeoutMS: 30000, // Increase timeout
+      socketTimeoutMS: 45000,
+})
 .then(()=>{
     console.log("MongoDB connected successfully")
 })
