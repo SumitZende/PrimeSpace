@@ -6,6 +6,7 @@ import Creat_Listing from './pages/Create_Listing'
 import Update_Listing from './pages/Update_Listing'
 import Listing from './pages/Listing'
 import Search from './pages/Search'
+import Footer from './components/Footer'
 
 export default function App() {
   return (
@@ -24,6 +25,7 @@ export default function App() {
         <Route path='/update-listing/:listingID' element={<Update_Listing/>}/>
       </Route>
     </Routes>
+    <Footer/>
     </BrowserRouter>
   )
 }
